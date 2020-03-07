@@ -1,0 +1,15 @@
+{
+    "name": "haradakunihiko/generic-value-expression",
+    "authors": [
+        {
+            "name": "haradakunihiko",
+            "email": "sthsoulful@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "GenericValueExpression\\": "src/"
+        }
+    }
+}
