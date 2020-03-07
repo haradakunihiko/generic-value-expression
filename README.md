@@ -38,13 +38,13 @@ typeは、
 ```php
 $engine = Parser::parse(json_decode('JSONで書いた計算式（後述）', true));
 $engine->evaluate([
-    "ken" => "東京",
+    "prefecture" => "東京",
     "city" => "杉並"
 ]);
 > '東京都杉並区のデータだよ'
 
 $engine->evaluate([
-    "ken" => "東京",
+    "prefecture" => "東京",
     "city" => "豊島"
 ]);
 > '東京都杉並区のデータじゃないよ'
@@ -63,11 +63,11 @@ $engine->evaluate([
 					"expressions": [
 						{
 							"type": "variable",
-							"value": "ken"
+							"value": "prefecture"
 						},
 						{
 							"type": "constant",
-							"value": "tokyo"
+							"value": "東京"
 						}
 					]
 				},
@@ -80,7 +80,7 @@ $engine->evaluate([
 						},
 						{
 							"type": "constant",
-							"value": "suginami"
+							"value": "杉並"
 						}
 					]
 				},
@@ -99,6 +99,7 @@ $engine->evaluate([
 ```
 
 ## sample2
+
 
 ```php
 $engine = createExpressionEvaluateEngine(
