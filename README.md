@@ -27,9 +27,9 @@ typeは、
     - count
     - if
 
-などがある。expressionsには、配列でexpressionを格納する。typeによって必要なexpressionsやvalueは異なる。
-例えば条件式equalsは二つのexpressionが必要で、ifは3つのexpressionが必要。
-また、constantやvariableはexpressionsは不要だが、valueを必要とする。
+などがある。`expressions`には、配列で`expression`を格納する。`type`によって必要な`expressions`や`value`は異なる。
+例えば条件式`equals`は二つの`expression`が必要で、ifは3つの`expression`が必要。
+また、`constant`や`variable`は`expressions`は不要だが、`value`を必要とする。
 
 # sample
 
@@ -100,6 +100,31 @@ $engine->evaluate([
 
 ## sample2
 
+```php
+$engine = createExpressionEvaluateEngine(
+    '{"type":"if","expressions":[{"type":"morethan","expressions":[{"type":"count","expressions":[{"type":"variable","value":"items"}]},3]},"many!","less!"]}'
+);
+
+echo $engine->evaluate([
+    'items' => [
+        [],
+        [],
+        [],
+    ]
+]);
+> few!
+
+echo $engine->evaluate([
+    'items' => [
+        [],
+        [],
+        [],
+        [],
+    ]
+]) . PHP_EOL;
+> many!
+```
+
 ```json
 {
   "type": "if",
@@ -120,9 +145,9 @@ $engine->evaluate([
       ]
     },
     "many!",
-    "less!"
+    "few!"
   ]
 }
 ```
 
-expressionを文字列で指定した場合は、constantとして扱われる。
+`expression`をオブジェクトではなく文字列・数値で指定した場合は、`constant`として扱われる。
