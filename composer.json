@@ -6,7 +6,10 @@
             "email": "sthsoulful@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=7.2.5",
+        "ext-json": "^1.7"
+    },
     "autoload": {
         "psr-4": {
             "GenericValueExpression\\": "src/"
