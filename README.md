@@ -2,7 +2,7 @@
 渡されたデータを、jsonで定義された式に沿って計算を行います。
 
 # 計算式の定義
-以下の形が基本形。これをexpressionと呼ぶ。
+以下の形が基本形。これを`expression`と呼ぶ。`expression`は複数の`expression`を子に持つとことができる。
 
 ```json
 {
@@ -25,18 +25,21 @@ typeは、
 - 関数
     - concat
     - if
+    - multiply
+    - add
 - 集約
     - count
     - countif
     - exists
     - max
+    - sum
 
-などがある。`expressions`には、配列で`expression`を格納する。
 
-`type`によって必要な`expressions`や`value`は異なる。
+`type`によって必要な`expressions`や`value`は異なる。例えば、
 
-例えば条件式`equals`は二つの`expression`が必要で、ifは3つの`expression`が必要。
-また、`constant`や`variable`の値を表す場合は`value`が必要。
+- 条件式`equals`は二つの値を比較するため、 2つの`expression`を指定する必要がある。
+- ifは、 `条件式`、`trueの場合の返り値`、`falseの場合の返り値`　の3つの `expression`が必要。
+- `constant`や`variable`の値を表す場合は `value` が必要。
 
 # sample
 sampleディレクトリも参照。
@@ -98,7 +101,7 @@ echo $engine->evaluate([
 
 
 ## sample2
-
+itemsに、OL001-I000001が3レコード以上かつOL001-I000002を含むという条件に当てはまるかをチェック
 ### 計算式
 ```json
 {
@@ -168,6 +171,6 @@ echo $engine->evaluate([
 ※ `expression`をオブジェクトではなく文字列・数値で指定した場合は、`constant`として扱われる。
 
 ## sample3
-これを使ってCSVの変換を行うあゆt
+CSVの変換にexpressionを用いた例
 
 `./sample/csv_export` 参照

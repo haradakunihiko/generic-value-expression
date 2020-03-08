@@ -47,7 +47,7 @@ class Parser
 
     private static function convert($expression)
     {
-        if (is_string($expression) || is_numeric($expression)) {
+        if (!is_array($expression)) {
             return [
                 'type'=> 'constant',
                 'value'=> $expression

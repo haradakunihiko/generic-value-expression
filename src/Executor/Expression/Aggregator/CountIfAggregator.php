@@ -1,8 +1,5 @@
 <?php
-
-
 namespace GenericValueExpression\Executor\Expression\Aggregator;
-
 
 use GenericValueExpression\Executor\Expression\Expression;
 

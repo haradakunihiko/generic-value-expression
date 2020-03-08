@@ -60,12 +60,13 @@
   {
     "label": "sku",
     "expression": {
-      "type": "count",
+      "type": "countif",
       "expressions": [
         {
           "type": "variable",
           "value": "items"
-        }
+        },
+        true
       ]
     }
   }
