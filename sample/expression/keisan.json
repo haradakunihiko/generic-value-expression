@@ -1,0 +1,34 @@
+{
+  "type": "concat",
+  "expressions": [
+    {
+      "type": "multiply",
+      "expressions": [
+        {
+          "type": "sum",
+          "expressions": [
+            {
+              "type": "variable",
+              "value": "items"
+            },
+            {
+              "type": "multiply",
+              "expressions": [
+                {
+                  "type": "variable",
+                  "value": "quantity"
+                },
+                {
+                  "type": "variable",
+                  "value": "price"
+                }
+              ]
+            }
+          ]
+        },
+        1.08
+      ]
+    },
+    "円"
+  ]
+}

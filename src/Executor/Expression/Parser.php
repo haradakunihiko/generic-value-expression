@@ -1,16 +1,18 @@
 <?php
 namespace GenericValueExpression\Executor\Expression;
 
-use GenericValueExpression\Executor\Expression\Aggregator\CountAggregator;
 use GenericValueExpression\Executor\Expression\Aggregator\CountIfAggregator;
 use GenericValueExpression\Executor\Expression\Aggregator\ExistsAggregator;
+use GenericValueExpression\Executor\Expression\Aggregator\SumAggregator;
 use GenericValueExpression\Executor\Expression\Condition\AndCondition;
 use GenericValueExpression\Executor\Expression\Condition\EqualsCondition;
 use GenericValueExpression\Executor\Expression\Condition\MoreThanCondition;
+use GenericValueExpression\Executor\Expression\Func\AddFunction;
 use GenericValueExpression\Executor\Expression\Func\ConcatFunction;
 
 use GenericValueExpression\Executor\Expression\Func\IfFunction;
 use GenericValueExpression\Executor\Expression\Func\MappingFunction;
+use GenericValueExpression\Executor\Expression\Func\MultiplyFunction;
 use GenericValueExpression\Executor\Expression\Value\Constant;
 use GenericValueExpression\Executor\Expression\Value\Variable;
 
@@ -23,11 +25,13 @@ class Parser
         'equals' => EqualsCondition::class,
         'if' => IfFunction::class,
         'morethan' => MoreThanCondition::class,
-        'count' => CountAggregator::class,
+        'sum' => SumAggregator::class,
         'countif' => CountIfAggregator::class,
         'exists' => ExistsAggregator::class,
         'mapping' => MappingFunction::class,
         'concat' => ConcatFunction::class,
+        'add' => AddFunction::class,
+        'multiply' => MultiplyFunction::class,
     ];
 
     public static function parse($expression)

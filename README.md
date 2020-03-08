@@ -22,134 +22,152 @@ typeは、
     - and
     - or
     - morethan
-- 計算式
-    - max
-    - count
+- 関数
+    - concat
     - if
+- 集約
+    - count
+    - countif
+    - exists
+    - max
 
-などがある。`expressions`には、配列で`expression`を格納する。`type`によって必要な`expressions`や`value`は異なる。
+などがある。`expressions`には、配列で`expression`を格納する。
+
+`type`によって必要な`expressions`や`value`は異なる。
+
 例えば条件式`equals`は二つの`expression`が必要で、ifは3つの`expression`が必要。
-また、`constant`や`variable`は`expressions`は不要だが、`value`を必要とする。
+また、`constant`や`variable`の値を表す場合は`value`が必要。
 
 # sample
 sampleディレクトリも参照。
 
 ## sample1
 
-```php
-$engine = Parser::parse(json_decode('JSONで書いた計算式（後述）', true));
-$engine->evaluate([
-    "prefecture" => "東京",
-    "city" => "杉並"
-]);
-> '東京都杉並区のデータだよ'
-
-$engine->evaluate([
-    "prefecture" => "東京",
-    "city" => "豊島"
-]);
-> '東京都杉並区のデータじゃないよ'
-```
-
-計算式定義
+### 計算式定義
+出庫依頼に含まれる商品の合計金額に税額を加えた金額を算出して、最後に円をつける
 ```json
 {
-	"type": "if",
-	"expressions": [
-		{
-			"type": "and",
-			"expressions": [
-				{
-					"type": "equals",
-					"expressions": [
-						{
-							"type": "variable",
-							"value": "prefecture"
-						},
-						{
-							"type": "constant",
-							"value": "東京"
-						}
-					]
-				},
-				{
-					"type": "equals",
-					"expressions": [
-						{
-							"type": "variable",
-							"value": "city"
-						},
-						{
-							"type": "constant",
-							"value": "杉並"
-						}
-					]
-				},
-
-			]
-		}, {
-			"type": "constant",
-			"value": "東京都杉並区のデータだよ"
-		}, {
-			"type": "constant",
-			"value": "東京都杉並区のデータじゃないよ"
-		}
-	]
+  "type": "concat",
+  "expressions": [
+    {
+      "type": "multiply",
+      "expressions": [
+        {
+          "type": "sum",
+          "expressions": [
+            {
+              "type": "variable",
+              "value": "items"
+            },
+            {
+              "type": "multiply",
+              "expressions": [
+                {
+                  "type": "variable",
+                  "value": "quantity"
+                },
+                {
+                  "type": "variable",
+                  "value": "price"
+                }
+              ]
+            }
+          ]
+        },
+        1.08
+      ]
+    },
+    "円"
+  ]
 }
 
 ```
 
-## sample2
-
 
 ```php
-$engine = createExpressionEvaluateEngine(
-    '{"type":"if","expressions":[{"type":"morethan","expressions":[{"type":"count","expressions":[{"type":"variable","value":"items"}]},3]},"many!","less!"]}'
-);
-
+$engine = Parser::parse(json_decode('JSONで書いた計算式', true));
 echo $engine->evaluate([
     'items' => [
-        [],
-        [],
-        [],
-    ]
-]);
-> few!
-
-echo $engine->evaluate([
-    'items' => [
-        [],
-        [],
-        [],
-        [],
+        ['quantity' => 3, 'price' => 100],
+        ['quantity' => 2, 'price' => 500],
     ]
 ]) . PHP_EOL;
-> many!
+
+> 1404円
 ```
 
+
+## sample2
+
+### 計算式
 ```json
 {
-  "type": "if",
+  "type": "and",
   "expressions": [
     {
       "type": "morethan",
       "expressions": [
-      	{
-      		"type": "count",
-      		"expressions": [
-      			{
-      				"type": "variable",
-      				"value": "items"
-      			}
-      		]
-      	},
-      	3
+        {
+          "type": "countif",
+          "expressions": [
+            {
+              "type": "variable",
+              "value": "items"
+            },
+            {
+              "type": "equals",
+              "expressions": [
+                {
+                  "type": "variable",
+                  "value": "uid"
+                }, "OL001-I000001"
+              ]
+            }
+          ]
+        },
+        2
       ]
     },
-    "many!",
-    "few!"
+    {
+      "type": "exists",
+      "expressions": [
+        {
+          "type": "variable",
+          "value": "items"
+        }, {
+          "type": "equals",
+          "expressions": [
+            {
+              "type": "variable",
+              "value": "uid"
+            }, "OL001-I000002"
+          ]
+        }
+      ]
+    }
   ]
 }
+
 ```
 
-`expression`をオブジェクトではなく文字列・数値で指定した場合は、`constant`として扱われる。
+
+```php
+$engine = Parser::parse(json_decode('JSONで書いた計算式', true));
+
+echo $engine->evaluate([
+        'items' => [
+            ['uid' => 'OL001-I000001'],
+            ['uid' => 'OL001-I000001'],
+            ['uid' => 'OL001-I000001'],
+            ['uid' => 'OL001-I000002'],
+        ]
+    ]) . PHP_EOL;
+> 1
+```
+
+※ `expression`をオブジェクトではなく文字列・数値で指定した場合は、`constant`として扱われる。
+
+## sample3
+これを使ってCSVの変換を行うあゆt
+
+`./sample/csv_export` 参照
