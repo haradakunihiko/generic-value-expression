@@ -1,16 +1,35 @@
 <?php
 namespace GenericValueExpression\Executor\Expression;
 
+use GenericValueExpression\Executor\Expression\Aggregator\CountAggregator;
+use GenericValueExpression\Executor\Expression\Aggregator\CountIfAggregator;
+use GenericValueExpression\Executor\Expression\Aggregator\ExistsAggregator;
 use GenericValueExpression\Executor\Expression\Condition\AndCondition;
 use GenericValueExpression\Executor\Expression\Condition\EqualsCondition;
 use GenericValueExpression\Executor\Expression\Condition\MoreThanCondition;
-use GenericValueExpression\Executor\Expression\Func\CountFunction;
+use GenericValueExpression\Executor\Expression\Func\ConcatFunction;
+
 use GenericValueExpression\Executor\Expression\Func\IfFunction;
+use GenericValueExpression\Executor\Expression\Func\MappingFunction;
 use GenericValueExpression\Executor\Expression\Value\Constant;
 use GenericValueExpression\Executor\Expression\Value\Variable;
 
 class Parser
 {
+    const MAPPING = [
+        'constant' => Constant::class,
+        'variable' => Variable::class,
+        'and' => AndCondition::class,
+        'equals' => EqualsCondition::class,
+        'if' => IfFunction::class,
+        'morethan' => MoreThanCondition::class,
+        'count' => CountAggregator::class,
+        'countif' => CountIfAggregator::class,
+        'exists' => ExistsAggregator::class,
+        'mapping' => MappingFunction::class,
+        'concat' => ConcatFunction::class,
+    ];
+
     public static function parse($expression)
     {
         $expression = self::convert($expression);
@@ -35,21 +54,7 @@ class Parser
     }
 
     private static function newExpressionInstance($type, $value, $expressions): Expression {
-        switch($type) {
-            case 'constant':
-                return new Constant($value, $expressions);
-            case 'variable':
-                return new Variable($value, $expressions);
-            case 'and':
-                return new AndCondition($value, $expressions);
-            case 'equals':
-                return new EqualsCondition($value, $expressions);
-            case 'if':
-                return new IfFunction($value, $expressions);
-            case 'morethan':
-                return new MoreThanCondition($value, $expressions);
-            case 'count':
-                return new CountFunction($value, $expressions);
-        }
+        $class = self::MAPPING[$type];
+        return new $class($value, $expressions);
     }
 }

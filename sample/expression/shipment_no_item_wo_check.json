@@ -1,0 +1,46 @@
+{
+  "type": "and",
+  "expressions": [
+    {
+      "type": "morethan",
+      "expressions": [
+        {
+          "type": "countif",
+          "expressions": [
+            {
+              "type": "variable",
+              "value": "items"
+            },
+            {
+              "type": "equals",
+              "expressions": [
+                {
+                  "type": "variable",
+                  "value": "uid"
+                }, "OL001-I000001"
+              ]
+            }
+          ]
+        },
+        2
+      ]
+    },
+    {
+      "type": "exists",
+      "expressions": [
+        {
+          "type": "variable",
+          "value": "items"
+        }, {
+          "type": "equals",
+          "expressions": [
+            {
+              "type": "variable",
+              "value": "uid"
+            }, "OL001-I000002"
+          ]
+        }
+      ]
+    }
+  ]
+}

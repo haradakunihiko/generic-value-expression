@@ -1,0 +1,72 @@
+[
+  {
+    "label": "出庫依頼ID",
+    "expression": {
+      "type": "variable",
+      "value": "uid"
+    }
+  },
+  {
+    "label": "配送キャリア",
+    "expression": {
+      "type": "variable",
+      "value": "delivery_carrier_id"
+    }
+  },
+  {
+    "label": "個口サイズ",
+    "expression": {
+      "type": "mapping",
+      "expressions": [
+        {
+          "type": "variable",
+          "value": "box_size"
+        }, {
+          "type": "constant",
+          "value": {
+            "YP1": "Y001",
+            "YP2": "Y002",
+            "YP3": "Y003"
+          }
+        },
+        ""
+      ]
+    }
+  },
+  {
+    "label": "送り先",
+    "expression": {
+      "type": "concat",
+      "expressions": [
+        {
+          "type": "variable",
+          "value": "ken"
+        },
+        {
+          "type": "variable",
+          "value": "addr1"
+        },
+        {
+          "type": "variable",
+          "value": "addr2"
+        },
+        {
+          "type": "variable",
+          "value": "name"
+        }
+      ]
+    }
+  },
+  {
+    "label": "sku",
+    "expression": {
+      "type": "count",
+      "expressions": [
+        {
+          "type": "variable",
+          "value": "items"
+        }
+      ]
+    }
+  }
+]

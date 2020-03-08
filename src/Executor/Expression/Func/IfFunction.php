@@ -10,7 +10,7 @@ class IfFunction extends Expression
         /** @var Expression $condition */
         /** @var Expression $trueResult */
         /** @var Expression $falseResult */
-        [ $condition, $trueResult , $falseResult] = $this->expressions;
+        [ $condition, $trueResult, $falseResult] = $this->expressions;
 
         if ($condition->evaluate($dataSource)) {
             return $trueResult->evaluate($dataSource);

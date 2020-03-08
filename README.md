@@ -32,6 +32,7 @@ typeは、
 また、`constant`や`variable`は`expressions`は不要だが、`value`を必要とする。
 
 # sample
+sampleディレクトリも参照。
 
 ## sample1
 

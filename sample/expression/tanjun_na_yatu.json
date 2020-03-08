@@ -1,0 +1,42 @@
+{
+  "type": "if",
+  "expressions": [
+    {
+      "type": "and",
+      "expressions": [
+        {
+          "type": "equals",
+          "expressions": [
+            {
+              "type": "variable",
+              "value": "prefecture"
+            },
+            {
+              "type": "constant",
+              "value": "東京"
+            }
+          ]
+        },
+        {
+          "type": "equals",
+          "expressions": [
+            {
+              "type": "variable",
+              "value": "city"
+            },
+            {
+              "type": "constant",
+              "value": "杉並"
+            }
+          ]
+        }
+      ]
+    }, {
+      "type": "constant",
+      "value": "東京都杉並区のデータだよ"
+    }, {
+      "type": "constant",
+      "value": "東京都杉並区のデータじゃないよ"
+    }
+  ]
+}
